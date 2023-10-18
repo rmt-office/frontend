@@ -4,7 +4,7 @@ class ApiConnect {
 	private api: AxiosInstance
 	constructor() {
 		this.api = axios.create({
-			baseURL: '',
+			baseURL: import.meta.env.VITE_SERVER_URL,
 		})
 
 		this.api.interceptors.request.use(
