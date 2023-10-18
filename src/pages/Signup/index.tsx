@@ -64,7 +64,7 @@ const Signup = () => {
 					</button>
 				</div>
 
-				<p>
+				<p className='account-cta'>
 					Already have an account? <Link to={'/login'}>Click here</Link> to login
 				</p>
 			</form>
