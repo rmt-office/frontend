@@ -1,0 +1,20 @@
+.user-form {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75em;
+}
+.input-group {
+	display: grid;
+	gap: 0.25em;
+}
+
+.input-group label {
+	align-self: flex-start;
+}
+
+.btn-group {
+	align-self: flex-end;
+	display: flex;
+	gap: 0.25em;
+	margin: 1rem 0;
+}

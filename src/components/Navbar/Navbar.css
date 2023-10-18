@@ -1,0 +1,19 @@
+nav a {
+	text-decoration: none;
+	color: whitesmoke;
+}
+
+nav ul {
+	display: flex;
+	gap: 0.5em;
+}
+
+nav li {
+	list-style: none;
+}
+
+nav {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
