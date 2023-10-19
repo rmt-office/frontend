@@ -1,10 +1,10 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
 
 class ApiConnect {
-	private api: AxiosInstance
-	constructor() {
+	protected api: AxiosInstance
+	constructor(path: string) {
 		this.api = axios.create({
-			baseURL: import.meta.env.VITE_SERVER_URL,
+			baseURL: `${import.meta.env.VITE_SERVER_URL}/${path}`,
 		})
 
 		this.api.interceptors.request.use(

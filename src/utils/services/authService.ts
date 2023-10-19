@@ -2,7 +2,7 @@ import { ApiConnect } from '../../lib/axios'
 
 class AuthService extends ApiConnect {
 	constructor() {
-		super()
+		super('auth')
 	}
 
 	async signup<TData>(newUser: TData) {

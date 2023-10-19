@@ -8,12 +8,14 @@ function App() {
 	return (
 		<>
 			<Navbar />
-			<Routes>
-				<Route path='/' element={'Home'} />
-				<Route path='/signup' element={<Signup />} />
-				<Route path='/login' element={<Login />} />
-				<Route path='/logout' element={'logout'} />
-			</Routes>
+			<div className='w-5/6 mx-auto'>
+				<Routes>
+					<Route path='/' element={'Home'} />
+					<Route path='/signup' element={<Signup />} />
+					<Route path='/login' element={<Login />} />
+					<Route path='/logout' element={'logout'} />
+				</Routes>
+			</div>
 		</>
 	)
 }
