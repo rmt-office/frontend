@@ -3,9 +3,11 @@ import './Navbar.css'
 
 const Navbar = () => {
 	return (
-		<nav>
+		<nav className='mb-8'>
 			<h2>
-				<Link to={'/'}>Remote Office</Link>
+				<Link to={'/'} className='text-2xl'>
+					Remote Office
+				</Link>
 			</h2>
 			<div>
 				<ul>
