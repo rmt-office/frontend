@@ -1,15 +1,29 @@
 import { ApiConnect } from '../../lib/axios'
 
+interface User {
+	email: string
+	password: string
+}
+
+interface NewUser extends User {
+	confirmPassword: string
+	username?: string
+}
+
 class AuthService extends ApiConnect {
 	constructor() {
 		super('auth')
 	}
 
-	async signup<TData>(newUser: TData) {
+	async signup(newUser: NewUser) {
 		return this.post('/signup', newUser)
 	}
-	async login() {}
-	async verify() {}
+	async login(user: User) {
+		return this.post('/login', user)
+	}
+	async verify() {
+		return this.get('/verify')
+	}
 }
 
 const authService = new AuthService()
