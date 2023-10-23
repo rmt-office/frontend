@@ -1,8 +1,9 @@
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import '../../styles/Form.css'
 import { authService } from '../../utils/services'
 import { AxiosError } from 'axios'
+import { useAuthValue } from '../../context'
 
 const Login = () => {
 	const {
@@ -17,6 +18,9 @@ const Login = () => {
 			password: '',
 		},
 	})
+	const navigate = useNavigate()
+
+	const { storeToken, authenticateUser } = useAuthValue()
 
 	const onSubmit = async (values: { email: string; password: string }) => {
 		try {
@@ -26,9 +30,10 @@ const Login = () => {
 			}
 
 			const { data } = await authService.login(user)
-			//TODO: Redirect the user after signup?
-			console.log(data)
-			await authService.verify()
+			storeToken(data.token)
+			await authenticateUser()
+			console.log('before navigate')
+			navigate('/')
 		} catch (error) {
 			console.log(error)
 			if (error instanceof AxiosError) {
