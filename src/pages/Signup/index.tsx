@@ -131,13 +131,13 @@ const Signup = () => {
 					<p className='text-red-400 mx-0.5 text-xl'>{errors.root.serverError.message}</p>
 				)}
 				<div className='self-end flex gap-1.5 mt-1'>
-					<button type='submit' className='bg-black rounded border-white-50 border-2 px-2 py-1.5'>
+					<button type='submit' className='bg-black rounded border-white-50 border-2 px-2 py-1'>
 						Register
 					</button>
 					<button
 						type='reset'
 						onClick={() => reset()}
-						className='bg-black rounded border-white-50 border-2 px-2 py-1.5'
+						className='bg-black rounded border-white-50 border-2 px-2 py-1'
 					>
 						Cancel
 					</button>

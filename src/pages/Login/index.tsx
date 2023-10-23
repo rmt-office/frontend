@@ -1,6 +1,5 @@
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
-import '../../styles/Form.css'
 import { authService } from '../../utils/services'
 import { AxiosError } from 'axios'
 import { useAuthValue } from '../../context'
@@ -94,13 +93,13 @@ const Login = () => {
 				)}
 
 				<div className='self-end flex gap-1.5 mt-1'>
-					<button type='submit' className='bg-black rounded border-white-50 border-2 px-2 py-1.5'>
+					<button type='submit' className='bg-black rounded border-white-50 border-2 px-2 py-1'>
 						Login
 					</button>
 					<button
 						type='reset'
 						onClick={() => reset()}
-						className='bg-black rounded border-white-50 border-2 px-2 py-1.5'
+						className='bg-black rounded border-white-50 border-2 px-2 py-1'
 					>
 						Cancel
 					</button>
