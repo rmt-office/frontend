@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { authService } from '../../utils/services'
 import { AxiosError } from 'axios'
+import Button from '../../components/Button'
 
 const Signup = () => {
 	const {
@@ -131,16 +132,10 @@ const Signup = () => {
 					<p className='text-red-400 mx-0.5 text-xl'>{errors.root.serverError.message}</p>
 				)}
 				<div className='self-end flex gap-1.5 mt-1'>
-					<button type='submit' className='bg-black rounded border-white-50 border-2 px-2 py-1'>
-						Register
-					</button>
-					<button
-						type='reset'
-						onClick={() => reset()}
-						className='bg-black rounded border-white-50 border-2 px-2 py-1'
-					>
+					<Button>Register</Button>
+					<Button type='reset' onClick={() => reset()}>
 						Cancel
-					</button>
+					</Button>
 				</div>
 
 				<p className='self-center text-base font-normal'>
