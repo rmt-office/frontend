@@ -1,11 +1,5 @@
 import { Link } from 'react-router-dom'
-
 import { useAuthValue } from '../../context'
-
-// nav a {
-// 	text-decoration: none;
-// 	color: whitesmoke;
-// }
 
 const Navbar = () => {
 	const { user, isLoggedIn, logoutUser } = useAuthValue()
