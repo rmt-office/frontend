@@ -42,7 +42,7 @@ const Home = () => {
 			></div>
 			<div className='flex flex-col items-center justify-center mx-auto gap-2 z-auto'>
 				<PageTitle>Remote Office</PageTitle>
-				<h2 className='-mt-5 text-xl mb-5 font-thin text-gray-400'>
+				<h2 className='-mt-5 text-xl mb-5 font-light text-gray-600  dark:text-gray-400'>
 					Find your perfect place to work remotely
 				</h2>
 				<div>
@@ -105,14 +105,23 @@ const Home = () => {
 				{modal.isOpen && (
 					<div className='absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-50'>
 						<div className='flex flex-col gap-4 bg-neutral-700 border-2 border-solid rounded px-4 py-6 relative'>
-							<span className='absolute right-2 top-1' onClick={() => handleModal(modal.selected)}>
+							<span
+								className='absolute right-2 top-1 text-white hover:cursor-pointer'
+								onClick={() => handleModal(modal.selected)}
+							>
 								X
 							</span>
-							<p className='mt-4'>Where do you want to find your {modal.selected}?</p>
-							<div className='flex gap-2 justify-center'>
-								<label htmlFor='searchCity'>City:</label>
-								<input id='searchCity' className='text-black ps-1 rounded' placeholder='Paris' />
-								<Button className='py-0'>Go</Button>
+							<p className='mt-4 text-white'>Where do you want to find your {modal.selected}?</p>
+							<div className='flex gap-2 justify-center items-baseline'>
+								<label htmlFor='searchCity' className='text-white'>
+									City:
+								</label>
+								<input
+									id='searchCity'
+									className='text-black ps-1 rounded py-1'
+									placeholder='Paris'
+								/>
+								<Button className='py-0.5'>Go</Button>
 							</div>
 						</div>
 					</div>

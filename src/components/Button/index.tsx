@@ -14,7 +14,7 @@ const Button = ({
 	return (
 		<button
 			type={type ? type : 'button'}
-			className={`bg-black rounded border-white-50 border-2 px-2 py-1 hover:cursor-pointer hover:shadow-sm hover:shadow-white ${className}`}
+			className={`text-white bg-neutral-700 rounded border-white border-2 px-2 py-1 hover:cursor-pointer hover:shadow-sm dark:hover:shadow-white hover:shadow-gray-600 ${className}`}
 			onClick={onClick}
 		>
 			{children}
