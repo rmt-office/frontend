@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import Input from '../Input'
 import InputLegend from '../InputLegend'
+import Button from '../Button'
 
 const LoginForm = () => {
 	const {
@@ -87,16 +88,14 @@ const LoginForm = () => {
 			)}
 
 			<div className='self-end flex gap-1.5 mt-1'>
-				<button type='submit' className='bg-black rounded border-white-50 border-2 px-2 py-1'>
-					Login
-				</button>
-				<button
+				<Button type='submit'>Login</Button>
+				<Button
 					type='reset'
 					onClick={() => reset()}
 					className='bg-black rounded border-white-50 border-2 px-2 py-1'
 				>
 					Cancel
-				</button>
+				</Button>
 			</div>
 		</form>
 	)
