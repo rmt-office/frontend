@@ -2,13 +2,13 @@ import { useState, useEffect, createContext, ReactNode } from 'react'
 
 const ThemeContext = createContext<null | {
 	theme: 'dark' | 'light'
-	toogleTheme: () => void
+	toggleTheme: () => void
 }>(null)
 
 const ThemeContextWrapper = ({ children }: { children: ReactNode }) => {
 	const [theme, setTheme] = useState<'dark' | 'light'>('light')
 
-	const toogleTheme = () => {
+	const toggleTheme = () => {
 		setTheme((prev) => {
 			if (prev === 'light') {
 				localStorage.setItem('theme', 'dark')
@@ -29,7 +29,7 @@ const ThemeContextWrapper = ({ children }: { children: ReactNode }) => {
 		}
 	}, [])
 
-	return <ThemeContext.Provider value={{ theme, toogleTheme }}>{children}</ThemeContext.Provider>
+	return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>
 }
 
 export { ThemeContext, ThemeContextWrapper }

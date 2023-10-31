@@ -103,7 +103,7 @@ const Home = () => {
 				</div>
 
 				{modal.isOpen && (
-					<div className='absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-50'>
+					<div className='absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-20'>
 						<div className='flex flex-col gap-4 bg-neutral-700 border-2 border-solid rounded px-4 py-6 relative'>
 							<span
 								className='absolute right-2 top-1 text-white hover:cursor-pointer'

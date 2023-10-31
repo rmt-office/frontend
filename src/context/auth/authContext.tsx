@@ -2,7 +2,7 @@ import { useState, useEffect, createContext, ReactNode } from 'react'
 import { authService } from '../../utils/services'
 
 const AuthContext = createContext<null | {
-	user: null | { username: string; _id: string; email: string }
+	user: null | { username: string; _id: string; email: string; profilePicture: string }
 	isLoading: boolean
 	isLoggedIn: boolean
 	storeToken: (token: string) => void
@@ -12,7 +12,12 @@ const AuthContext = createContext<null | {
 }>(null)
 
 const AuthContextWrapper = ({ children }: { children: ReactNode }) => {
-	const [user, setUser] = useState<null | { username: string; _id: string; email: string }>(null)
+	const [user, setUser] = useState<null | {
+		username: string
+		_id: string
+		email: string
+		profilePicture: string
+	}>(null)
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
 

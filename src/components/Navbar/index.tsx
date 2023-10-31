@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { useAuthValue } from '../../context'
+import NavMenu from '../NavMenu'
 import { useEffect, useState } from 'react'
 
 function getWindowSize() {
@@ -8,7 +8,14 @@ function getWindowSize() {
 }
 
 const Navbar = () => {
-	const { user, isLoggedIn, logoutUser } = useAuthValue()
+	// TODO: GEOLOCATION
+	// navigator.geolocation.getCurrentPosition(
+	// 	({ coords: { latitude, longitude, accuracy } }) => {
+	// 		console.log({ latitude, longitude, accuracy })
+	// 	},
+	// 	(err) => console.log(err),
+	// 	{ enableHighAccuracy: true }
+	// )
 	const [width, setWidth] = useState<number>(getWindowSize())
 
 	useEffect(() => {
@@ -25,40 +32,17 @@ const Navbar = () => {
 
 	return (
 		<nav className='mb-8 flex items-end justify-between'>
-			<h2>
-				<Link to={'/'} className='text-2xl'>
-					Remote Office
-				</Link>
-			</h2>
+			<div className='flex items-baseline gap-12'>
+				<h2>
+					<Link to={'/'} className='text-2xl'>
+						Remote Office
+					</Link>
+				</h2>
+				{width >= 768 && <span className='justify-self-start'>Add a place</span>}
+			</div>
 			<div>
-				{/* TODO: Hambuger menu */}
-				{width}
-				{width >= 768 ? <p>Bigger than 768</p> : <p>Smaller than 768</p>}
-				<ul className='flex gap-2'>
-					{!isLoggedIn ? (
-						<>
-							<li className='px-2 py-1 rounded border-solid border-2 border-white hover:cursor-pointer hover:shadow-sm hover:shadow-white'>
-								<Link to={'/signup'}>Sign Up</Link>
-							</li>
-							<li className='px-2 py-1 rounded border-solid border-2 border-white hover:cursor-pointer hover:shadow-sm hover:shadow-white'>
-								<Link to={'/login'}>Login</Link>
-							</li>
-						</>
-					) : (
-						<>
-							<p>Welcome, {user?.username}</p>
-							<li>
-								<a
-									className='text-red-400 bg-gray-800 px-2 py-1 rounded border-solid border-2 border-red-400 hover:cursor-pointer hover:shadow-sm hover:shadow-red-300'
-									onClick={() => {
-										logoutUser()
-									}}
-								>
-									Logout
-								</a>
-							</li>
-						</>
-					)}
+				<ul className='flex gap-2 items-center'>
+					<NavMenu width={width} />
 				</ul>
 			</div>
 		</nav>

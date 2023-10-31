@@ -8,7 +8,7 @@ import { useThemeValue } from './context'
 import { useEffect } from 'react'
 
 function App() {
-	const { theme, toogleTheme } = useThemeValue()
+	const { theme } = useThemeValue()
 	useEffect(() => {
 		const html = document.querySelector('html')
 		if (html && theme === 'dark') {
@@ -20,7 +20,6 @@ function App() {
 
 	return (
 		<>
-			<button onClick={toogleTheme}>theme</button>
 			<Navbar />
 			<div className='w-100 mx-auto'>
 				<Routes>
