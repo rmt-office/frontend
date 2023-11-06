@@ -29,68 +29,58 @@ const NavMenu = ({ width }: { width: number }) => {
 							</li>
 						</>
 					) : (
-						<div className='flex flex-col '>
-							<div className='flex justify-between '>
-								<span onClick={toggleTheme}>
-									<ToggleThemeIcon theme={theme} />
-								</span>
-								<a
-									className=' text-white bg-red-500 dark:bg-red-800 px-0.5  rounded border-solid border-2 border-red-500 dark:border-red-800 hover:cursor-pointer hover:shadow-sm hover:shadow-red-300'
-									onClick={() => {
-										logoutUser()
-									}}
-								>
-									Logout
-								</a>
-							</div>
+						<div className='flex gap-6 items-center'>
+							<span onClick={toggleTheme}>
+								<ToggleThemeIcon theme={theme} />
+							</span>
+
 							<p>Welcome, {user?.username}</p>
+							<a
+								className=' text-white bg-red-500 dark:bg-red-800 px-0.5  rounded border-solid border-2 border-red-500 dark:border-red-800 hover:cursor-pointer hover:shadow-sm hover:shadow-red-300'
+								onClick={() => {
+									logoutUser()
+								}}
+							>
+								Logout
+							</a>
 						</div>
 					)}
 				</>
 			) : (
 				<>
-					<HamburguerMenuIcon handleOpen={handleOpen} />
-					{isOpen && (
+					{!isOpen && (
 						<>
-							<div
-								className='absolute inset-0 z-40 bg-opacity-60 bg-slate-950'
-								onClick={handleOpen}
-							></div>
-							<div className=' bg-gray-200  dark:bg-gray-600 absolute min-h-full w-1/2 top-0 right-0 z-50'>
-								<span onClick={toggleTheme} className='absolute left-2 top-2'>
+							<ProfilePictureIcon />
+							<HamburguerMenuIcon handleOpen={handleOpen} />
+						</>
+					)}
+					<>
+						<div
+							className={`${
+								isOpen
+									? 'absolute inset-0 z-40 bg-opacity-60 bg-gray-950'
+									: 'w-0 h-0 overflow-hidden'
+							}`}
+							onClick={handleOpen}
+						></div>
+						<div
+							className={`${
+								isOpen
+									? 'transition ease-linear duration-200  motion-reduce:transition-none bg-gray-200  dark:bg-gray-600 absolute min-h-full w-4/5 top-0 right-0 z-50 '
+									: 'w-0 h-0 overflow-hidden -right-full'
+							} `}
+						>
+							{isOpen && (
+								<span onClick={toggleTheme} className='absolute left-3 top-3'>
 									<ToggleThemeIcon theme={theme} />
 								</span>
-								<CloseIcon handleOpen={handleOpen} />
-								<ul className='flex flex-col ps-8 min-h-screen justify-around'>
-									<div className='flex flex-col gap-12'>
-										<li className='text-lg'>
-											{!isLoggedIn ? (
-												'Welcome'
-											) : (
-												<div className='flex gap-2 items-center'>
-													{!user?.profilePicture ? (
-														<ProfilePictureIcon />
-													) : (
-														<img src={user?.profilePicture} alt={user?.username} />
-													)}
-													{user?.username}
-												</div>
-											)}
-										</li>
-										<li className='text-lg'>
-											<Link to={'/'} onClick={handleOpen}>
-												Home - Find a place
-											</Link>
-										</li>
-										<div>
-											<li className='text-lg'>Add a place</li>
-											{isLoggedIn ? <li className='text-lg'>Your profile</li> : null}
-										</div>
-									</div>
-									<div className='flex flex-col gap-2'>
-										<li className='text-lg'>Send Feedback</li>
+							)}
+							{isOpen && <CloseIcon handleOpen={handleOpen} />}
+							<ul className='flex flex-col ps-8 min-h-screen justify-between py-24'>
+								<div className='flex flex-col gap-32'>
+									<li className='text-lg'>
 										{!isLoggedIn ? (
-											<div>
+											<div className='flex flex-col gap-8'>
 												<li className='text-lg'>
 													<Link to={'/signup'} onClick={handleOpen}>
 														Sign Up
@@ -103,24 +93,47 @@ const NavMenu = ({ width }: { width: number }) => {
 												</li>
 											</div>
 										) : (
-											<>
-												<li>
-													<a
-														className='text-white bg-red-500 dark:bg-red-800 px-0.5  rounded border-solid border-2 border-red-500 dark:border-red-800 hover:cursor-pointer hover:shadow-sm hover:shadow-red-300'
-														onClick={() => {
-															logoutUser()
-														}}
-													>
-														Logout
-													</a>
-												</li>
-											</>
+											<div className='flex gap-2 items-center'>
+												{!user?.profilePicture ? (
+													<ProfilePictureIcon />
+												) : (
+													<img src={user?.profilePicture} alt={user?.username} />
+												)}
+												{user?.username}
+											</div>
 										)}
+									</li>
+									<div className='flex flex-col gap-8'>
+										<li className='text-lg'>
+											<Link to={'/'} onClick={handleOpen}>
+												Home - Find a place
+											</Link>
+										</li>
+										<li className='text-lg'>Add a place</li>
+										{isLoggedIn ? <li className='text-lg'>Your profile</li> : null}
 									</div>
-								</ul>
-							</div>
-						</>
-					)}
+								</div>
+								<div className='flex flex-col gap-8'>
+									<li className='text-lg'>Send Feedback</li>
+									{isLoggedIn && (
+										<>
+											<li>
+												<a
+													className='text-white bg-red-500 dark:bg-red-800 px-0.5  rounded border-solid border-2 border-red-500 dark:border-red-800 hover:cursor-pointer hover:shadow-sm hover:shadow-red-300'
+													onClick={() => {
+														logoutUser()
+													}}
+												>
+													Logout
+												</a>
+											</li>
+										</>
+									)}
+								</div>
+							</ul>
+						</div>
+					</>
+					{/* )} */}
 				</>
 			)}
 		</>

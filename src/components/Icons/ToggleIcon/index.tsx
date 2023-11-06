@@ -1,7 +1,7 @@
 const ToggleThemeIcon = ({ theme }: { theme: 'dark' | 'light' }) => {
 	return (
 		<span className='hover:cursor-pointer'>
-			{theme === 'light' ? (
+			{theme === 'dark' ? (
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
 					fill='none'

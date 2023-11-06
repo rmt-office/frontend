@@ -3,6 +3,7 @@ import magnifyingGlasses from '../../assets/magnifying-glass-1976105_1280.webp'
 import HomeButtonGroup from '../../components/HomeButtonGroup'
 import Button from '../../components/Button'
 import { useState } from 'react'
+import CloseIcon from '../../components/Icons/CloseIcon'
 
 const Home = () => {
 	const [modal, setModal] = useState<{ isOpen: boolean; selected: string }>({
@@ -34,10 +35,7 @@ const Home = () => {
 	return (
 		<>
 			<div
-				className={`${
-					modal.isOpen &&
-					'bg-neutral-800 bg-opacity-95  z-10 w-11/12 h-5/6 absolute left-1/2 -translate-x-1/2'
-				}`}
+				className={`${modal.isOpen && 'bg-neutral-800 bg-opacity-95 z-10 inset-0 top-28 absolute'}`}
 				onClick={() => handleModal(modal.selected)}
 			></div>
 			<div className='flex flex-col items-center justify-center mx-auto gap-2 z-auto'>
@@ -104,14 +102,12 @@ const Home = () => {
 
 				{modal.isOpen && (
 					<div className='absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-20'>
-						<div className='flex flex-col gap-4 bg-neutral-700 border-2 border-solid rounded px-4 py-6 relative'>
-							<span
-								className='absolute right-2 top-1 text-white hover:cursor-pointer'
-								onClick={() => handleModal(modal.selected)}
-							>
-								X
-							</span>
-							<p className='mt-4 text-white'>Where do you want to find your {modal.selected}?</p>
+						<div className='flex flex-col gap-6 bg-neutral-700 border-2 border-solid rounded px-4 py-12 relative '>
+							<CloseIcon handleOpen={() => handleModal(modal.selected)} />
+
+							<p className='mt-4 text-white text-lg font-bold text-center whitespace-nowrap'>
+								Where do you want to find your {modal.selected}?
+							</p>
 							<div className='flex gap-2 justify-center items-baseline'>
 								<label htmlFor='searchCity' className='text-white'>
 									City:

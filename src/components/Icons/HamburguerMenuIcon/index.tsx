@@ -6,7 +6,7 @@ const HamburguerMenuIcon = ({ handleOpen }: { handleOpen: () => void }) => {
 			viewBox='0 0 24 24'
 			strokeWidth={1.5}
 			stroke='currentColor'
-			className='w-8 h-8 border rounded border-black dark:border-white p-1 hover:shadow dark:hover:shadow-white'
+			className='w-8 h-8 '
 			onClick={handleOpen}
 		>
 			<path

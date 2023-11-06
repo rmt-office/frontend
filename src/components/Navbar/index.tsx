@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
 import NavMenu from '../NavMenu'
 import { useEffect, useState } from 'react'
+import PlusIcon from '../Icons/PlusIcon'
+import RemoteOfficeLogo from '../Icons/RemoteOfficeLogo'
 
 function getWindowSize() {
 	const { innerWidth } = window
@@ -35,10 +37,19 @@ const Navbar = () => {
 			<div className='flex items-baseline gap-12'>
 				<h2>
 					<Link to={'/'} className='text-2xl'>
-						Remote Office
+						<RemoteOfficeLogo />
 					</Link>
 				</h2>
-				{width >= 768 && <span className='justify-self-start'>Add a place</span>}
+				{width >= 768 && (
+					<span className='justify-self-start'>
+						<Link to={'/login'}>
+							<span className='flex gap-1 items-center'>
+								<PlusIcon />
+								Add a place
+							</span>
+						</Link>
+					</span>
+				)}
 			</div>
 			<div>
 				<ul className='flex gap-2 items-center'>
