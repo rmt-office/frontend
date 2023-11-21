@@ -97,11 +97,17 @@ const NavMenu = ({ width }: { width: number }) => {
 												</li>
 											</span>
 										) : (
-											<div className='flex gap-2 items-center'>
+											<div className='flex gap-4 items-center'>
 												{!user?.profilePicture ? (
 													<ProfilePictureIcon />
 												) : (
-													<img src={user?.profilePicture} alt={user?.username} />
+													<div className='rounded-full w-16 aspect-square flex overflow-hidden'>
+														<img
+															src={user?.profilePicture}
+															alt={user.username}
+															className='object-cover'
+														/>
+													</div>
 												)}
 												{user?.username}
 											</div>
