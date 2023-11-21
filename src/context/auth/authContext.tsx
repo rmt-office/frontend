@@ -35,7 +35,6 @@ const AuthContextWrapper = ({ children }: { children: ReactNode }) => {
 			const { data } = await authService.verify()
 			setIsLoggedIn(true)
 			setUser(data)
-			console.log(data)
 		} catch (error) {
 			removeToken()
 			setIsLoggedIn(false)

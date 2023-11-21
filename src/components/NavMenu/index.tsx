@@ -49,12 +49,12 @@ const NavMenu = ({ width }: { width: number }) => {
 			) : (
 				<>
 					{!isOpen && (
-						<>
+						<div className='flex items-center gap-4'>
 							<ToggleThemeIcon theme={theme} onClick={toggleTheme} />
 
 							{isLoggedIn && <ProfilePictureIcon />}
 							<HamburguerMenuIcon handleOpen={handleOpen} />
-						</>
+						</div>
 					)}
 					<>
 						<div

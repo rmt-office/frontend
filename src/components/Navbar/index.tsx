@@ -52,7 +52,7 @@ const Navbar = () => {
 				)}
 			</div>
 			<div>
-				<ul className='flex gap-2 items-center'>
+				<ul className='flex items-center'>
 					<NavMenu width={width} />
 				</ul>
 			</div>

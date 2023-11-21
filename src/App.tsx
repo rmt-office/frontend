@@ -6,6 +6,8 @@ import Login from './pages/Login'
 import Home from './pages/Home'
 import { useThemeValue } from './context'
 import { useEffect } from 'react'
+import ProtectedRoute from './components/ProtectedRoute'
+import UserProfile from './pages/UserProfile'
 
 function App() {
 	const { theme } = useThemeValue()
@@ -26,6 +28,14 @@ function App() {
 					<Route path='/' element={<Home />} />
 					<Route path='/signup' element={<Signup />} />
 					<Route path='/login' element={<Login />} />
+					<Route
+						path='/user'
+						element={
+							<ProtectedRoute>
+								<UserProfile />
+							</ProtectedRoute>
+						}
+					/>
 				</Routes>
 			</div>
 		</>
