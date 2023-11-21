@@ -20,19 +20,19 @@ const NavMenu = ({ width }: { width: number }) => {
 			{width >= 768 ? (
 				<>
 					{!isLoggedIn ? (
-						<>
+						<span className='flex items-end gap-4'>
+							<ToggleThemeIcon theme={theme} onClick={toggleTheme} />
+
 							<li>
 								<Link to={'/signup'}>Sign Up</Link>
 							</li>
 							<li>
 								<Link to={'/login'}>Login</Link>
 							</li>
-						</>
+						</span>
 					) : (
 						<div className='flex gap-6 items-center'>
-							<span onClick={toggleTheme}>
-								<ToggleThemeIcon theme={theme} />
-							</span>
+							<ToggleThemeIcon theme={theme} onClick={toggleTheme} />
 
 							<p>Welcome, {user?.username}</p>
 							<a
@@ -50,7 +50,9 @@ const NavMenu = ({ width }: { width: number }) => {
 				<>
 					{!isOpen && (
 						<>
-							<ProfilePictureIcon />
+							<ToggleThemeIcon theme={theme} onClick={toggleTheme} />
+
+							{isLoggedIn && <ProfilePictureIcon />}
 							<HamburguerMenuIcon handleOpen={handleOpen} />
 						</>
 					)}
@@ -62,7 +64,9 @@ const NavMenu = ({ width }: { width: number }) => {
 									: 'w-0 h-0 overflow-hidden'
 							}`}
 							onClick={handleOpen}
-						></div>
+						>
+							{/* background div to close when click outside sidebar */}
+						</div>
 						<div
 							className={`${
 								isOpen
@@ -71,16 +75,16 @@ const NavMenu = ({ width }: { width: number }) => {
 							} `}
 						>
 							{isOpen && (
-								<span onClick={toggleTheme} className='absolute left-3 top-3'>
-									<ToggleThemeIcon theme={theme} />
+								<span className='absolute left-3 top-3'>
+									<ToggleThemeIcon theme={theme} onClick={toggleTheme} />
 								</span>
 							)}
 							{isOpen && <CloseIcon handleOpen={handleOpen} />}
 							<ul className='flex flex-col ps-8 min-h-screen justify-between py-24'>
-								<div className='flex flex-col gap-32'>
+								<span className='flex flex-col gap-32'>
 									<li className='text-lg'>
 										{!isLoggedIn ? (
-											<div className='flex flex-col gap-8'>
+											<span className='flex flex-col gap-8'>
 												<li className='text-lg'>
 													<Link to={'/signup'} onClick={handleOpen}>
 														Sign Up
@@ -91,7 +95,7 @@ const NavMenu = ({ width }: { width: number }) => {
 														Login
 													</Link>
 												</li>
-											</div>
+											</span>
 										) : (
 											<div className='flex gap-2 items-center'>
 												{!user?.profilePicture ? (
@@ -103,7 +107,7 @@ const NavMenu = ({ width }: { width: number }) => {
 											</div>
 										)}
 									</li>
-									<div className='flex flex-col gap-8'>
+									<span className='flex flex-col gap-8'>
 										<li className='text-lg'>
 											<Link to={'/'} onClick={handleOpen}>
 												Home - Find a place
@@ -111,9 +115,9 @@ const NavMenu = ({ width }: { width: number }) => {
 										</li>
 										<li className='text-lg'>Add a place</li>
 										{isLoggedIn ? <li className='text-lg'>Your profile</li> : null}
-									</div>
-								</div>
-								<div className='flex flex-col gap-8'>
+									</span>
+								</span>
+								<span className='flex flex-col gap-8'>
 									<li className='text-lg'>Send Feedback</li>
 									{isLoggedIn && (
 										<>
@@ -129,11 +133,10 @@ const NavMenu = ({ width }: { width: number }) => {
 											</li>
 										</>
 									)}
-								</div>
+								</span>
 							</ul>
 						</div>
 					</>
-					{/* )} */}
 				</>
 			)}
 		</>

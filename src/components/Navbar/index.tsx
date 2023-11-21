@@ -34,7 +34,7 @@ const Navbar = () => {
 
 	return (
 		<nav className='mb-8 flex items-end justify-between'>
-			<div className='flex items-baseline gap-12'>
+			<div className='flex items-center gap-12'>
 				<h2>
 					<Link to={'/'} className='text-2xl'>
 						<RemoteOfficeLogo />
