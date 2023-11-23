@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 
 class ApiConnect {
 	protected api: AxiosInstance
@@ -22,8 +22,13 @@ class ApiConnect {
 	protected async get(url: string, config?: AxiosRequestConfig) {
 		return this.api.get(url, { ...config })
 	}
-	protected async post<TData>(url: string, data: TData, config?: AxiosRequestConfig) {
-		return this.api.post(url, data, { ...config })
+
+	protected async post<TData, TDataFormat = unknown>(
+		url: string,
+		data: TData,
+		config?: AxiosRequestConfig
+	) {
+		return this.api.post(url, data, { ...config }) as Promise<AxiosResponse<TDataFormat>>
 	}
 	protected async put<TData>(url: string, data: TData, config?: AxiosRequestConfig) {
 		return this.api.put(url, data, { ...config })
