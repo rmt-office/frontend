@@ -1,58 +1,32 @@
-import { Link } from 'react-router-dom'
 import Button from '../../components/Button'
 import PageTitle from '../../components/PageTitle'
-import { useAuthValue } from '../../context'
+import useProfile from './useProfile'
+import CloseIcon from '../../components/Icons/CloseIcon'
 import { useState } from 'react'
-import { userService, utilServices } from '../../utils/services'
 
 const UserProfile = () => {
-	const { user, authenticateUser } = useAuthValue()
-	const [isLoading, setIsLoading] = useState(false)
-	const [userPicture, setUserPicture] = useState<{
-		file: null | File
-		picture: string
-		isChanged: boolean
-	}>({
-		file: null,
-		picture: user!.profilePicture,
-		isChanged: false,
+	const { userPicture, handlePicture, savePicture, isLoading, user } = useProfile()
+	const [modal, setModal] = useState({
+		isOpen: false,
 	})
 
-	const handlePicture = (event: React.ChangeEvent<HTMLInputElement>) => {
-		if (!event.target.files) return
-		const newPic = event.target.files[0]
-		const picURL = URL.createObjectURL(newPic)
-		setUserPicture({
-			file: newPic,
-			picture: picURL,
-			isChanged: true,
+	const handleModal = () => {
+		setModal((prev) => {
+			return { isOpen: !prev.isOpen }
 		})
 	}
-
-	const savePicture = async () => {
-		if (!userPicture.file) return
-		const photoData = new FormData()
-		photoData.append('image', userPicture.file)
-		try {
-			setIsLoading(true)
-			const { data } = await utilServices.uploadPhoto(photoData)
-			await userService.uploadPhoto({ profilePicture: data })
-			await authenticateUser()
-
-			setUserPicture({ ...userPicture, file: null, isChanged: false })
-		} catch (error) {
-			console.log(error)
-		} finally {
-			setIsLoading(false)
-		}
-	}
-
 	return (
 		<>
 			{user && (
-				<div className='flex flex-col gap-8 min-h-screen mt-16'>
+				<div className='flex flex-col gap-8 mt-16'>
+					<div
+						className={`${
+							modal.isOpen && 'bg-neutral-800 bg-opacity-95 z-10 inset-0 top-28 absolute '
+						}`}
+						onClick={() => handleModal()}
+					></div>
 					<PageTitle>Profile</PageTitle>
-					<div className='flex flex-col gap-16'>
+					<div className='flex flex-col gap-16 '>
 						<div className='flex flex-col gap-4 sm:flex-row justify-between items-center'>
 							<div className='rounded-full w-52 aspect-square flex overflow-hidden'>
 								<img src={userPicture.picture} alt={user.username} className='object-cover' />
@@ -82,9 +56,7 @@ const UserProfile = () => {
 								<p>Username: {user.username}</p>
 								<p>Email: {user.email}</p>
 							</div>
-							<Button>
-								<Link to='#'>Edit profile</Link>
-							</Button>
+							<Button onClick={handleModal}>Edit profile</Button>
 						</div>
 
 						<div className='flex flex-col gap-4 justify-center sm:flex-row sm:justify-between items-center'>
@@ -92,11 +64,31 @@ const UserProfile = () => {
 								<label htmlFor='password'>Password: </label>
 								<input type='password' value='***********' readOnly className='bg-transparent' />
 							</div>
-							<Button>
-								<Link to='#'>Change password</Link>
-							</Button>
+							<Button onClick={handleModal}>Change password</Button>
 						</div>
 					</div>
+					{modal.isOpen && (
+						<div className='absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-20'>
+							<div className='flex flex-col gap-6 bg-neutral-700 border-2 border-solid rounded px-4 py-12 relative '>
+								<CloseIcon handleOpen={() => handleModal()} />
+
+								<p className='mt-4 text-white text-lg font-bold text-center whitespace-nowrap'>
+									Where do you want to find your?
+								</p>
+								<div className='flex gap-2 justify-center items-baseline'>
+									<label htmlFor='searchCity' className='text-white'>
+										City:
+									</label>
+									<input
+										id='searchCity'
+										className='text-black ps-1 rounded py-1'
+										placeholder='Paris'
+									/>
+									<Button className='py-0.5'>Go</Button>
+								</div>
+							</div>
+						</div>
+					)}
 				</div>
 			)}
 		</>

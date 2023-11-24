@@ -120,7 +120,11 @@ const NavMenu = ({ width }: { width: number }) => {
 											</Link>
 										</li>
 										<li className='text-lg'>Add a place</li>
-										{isLoggedIn ? <li className='text-lg'>Your profile</li> : null}
+										{isLoggedIn ? (
+											<Link to={'/user'} className='text-lg'>
+												Your profile
+											</Link>
+										) : null}
 									</span>
 								</span>
 								<span className='flex flex-col gap-8'>
