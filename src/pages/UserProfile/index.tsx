@@ -2,18 +2,47 @@ import Button from '../../components/Button'
 import PageTitle from '../../components/PageTitle'
 import useProfile from './useProfile'
 import CloseIcon from '../../components/Icons/CloseIcon'
-import { useState } from 'react'
+import { ChangeEvent, FormEvent, useState } from 'react'
+import { userService, UserUpdate, PasswordUpdate } from '../../utils/services'
 
 const UserProfile = () => {
-	const { userPicture, handlePicture, savePicture, isLoading, user } = useProfile()
+	const { userPicture, handlePicture, savePicture, isLoading, user, authenticateUser } =
+		useProfile()
 	const [modal, setModal] = useState({
 		isOpen: false,
+		selected: '',
 	})
+	const [editProfile, setEditProfile] = useState<UserUpdate | PasswordUpdate>()
 
-	const handleModal = () => {
+	const handleModal = (type) => {
 		setModal((prev) => {
-			return { isOpen: !prev.isOpen }
+			if (type === 'profile') {
+				setEditProfile({
+					username: user!.username,
+					email: user!.email,
+					currentPassword: '',
+				})
+				return { selected: type, isOpen: !prev.isOpen }
+			} else if (type === 'password') {
+				setEditProfile({ password: '', confirmPassword: '', currentPassword: '' })
+				return { selected: type, isOpen: !prev.isOpen }
+			} else {
+				setEditProfile(undefined)
+				return { selected: '', isOpen: !prev.isOpen }
+			}
 		})
+	}
+
+	const onSubmit = async (e: FormEvent) => {
+		e.preventDefault()
+		console.log(editProfile)
+		try {
+			await userService.updateUser(editProfile!)
+			await authenticateUser()
+			handleModal('')
+		} catch (error) {
+			console.log(error)
+		}
 	}
 	return (
 		<>
@@ -23,7 +52,7 @@ const UserProfile = () => {
 						className={`${
 							modal.isOpen && 'bg-neutral-800 bg-opacity-95 z-10 inset-0 top-28 absolute '
 						}`}
-						onClick={() => handleModal()}
+						onClick={() => handleModal('')}
 					></div>
 					<PageTitle>Profile</PageTitle>
 					<div className='flex flex-col gap-16 '>
@@ -56,7 +85,7 @@ const UserProfile = () => {
 								<p>Username: {user.username}</p>
 								<p>Email: {user.email}</p>
 							</div>
-							<Button onClick={handleModal}>Edit profile</Button>
+							<Button onClick={() => handleModal('profile')}>Edit profile</Button>
 						</div>
 
 						<div className='flex flex-col gap-4 justify-center sm:flex-row sm:justify-between items-center'>
@@ -64,29 +93,55 @@ const UserProfile = () => {
 								<label htmlFor='password'>Password: </label>
 								<input type='password' value='***********' readOnly className='bg-transparent' />
 							</div>
-							<Button onClick={handleModal}>Change password</Button>
+							<Button onClick={() => handleModal('password')}>Change password</Button>
 						</div>
 					</div>
 					{modal.isOpen && (
 						<div className='absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-20'>
-							<div className='flex flex-col gap-6 bg-neutral-700 border-2 border-solid rounded px-4 py-12 relative '>
-								<CloseIcon handleOpen={() => handleModal()} />
+							<form
+								onSubmit={onSubmit}
+								className='flex flex-col gap-6 bg-neutral-700 border-2 border-solid rounded px-10 py-12 relative '
+							>
+								<CloseIcon handleOpen={() => handleModal('')} />
 
 								<p className='mt-4 text-white text-lg font-bold text-center whitespace-nowrap'>
-									Where do you want to find your?
+									Edit your {modal.selected}
 								</p>
-								<div className='flex gap-2 justify-center items-baseline'>
-									<label htmlFor='searchCity' className='text-white'>
-										City:
-									</label>
-									<input
-										id='searchCity'
-										className='text-black ps-1 rounded py-1'
-										placeholder='Paris'
-									/>
-									<Button className='py-0.5'>Go</Button>
+								<div className='grid gap-2'>
+									{Object.keys(editProfile!).map((field) => (
+										<>
+											<label htmlFor={field} className='text-white'>
+												{
+													<>
+														{field
+															.replace('P', ' P')
+															.split(' ')
+															.map((word) => word.slice(0, 1).toUpperCase() + word.slice(1))
+															.join(' ')}
+													</>
+												}
+											</label>
+											<input
+												type={field.toLowerCase().includes('password') ? 'password' : 'text'}
+												id={field}
+												value={editProfile[field]}
+												onChange={(e: ChangeEvent<HTMLInputElement>) => {
+													setEditProfile({ ...editProfile, [field]: e.target.value })
+												}}
+												className='text-black ps-1 rounded py-1'
+											/>
+										</>
+									))}
 								</div>
-							</div>
+								<div className='flex gap-2'>
+									<Button type='reset' className='py-0.5'>
+										Cancel
+									</Button>
+									<Button type='submit' className='py-0.5'>
+										Save changes
+									</Button>
+								</div>
+							</form>
 						</div>
 					)}
 				</div>

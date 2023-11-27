@@ -1,14 +1,17 @@
 import { ApiConnect } from '../../lib/axios'
 
-// interface User {
-// 	email: string
-// 	password: string
-// }
+interface Base {
+	currentPassword: string
+}
+export interface UserUpdate extends Base {
+	email: string
+	password: string
+}
 
-// interface NewUser extends User {
-// 	confirmPassword: string
-// 	username?: string
-// }
+export interface PasswordUpdate extends Base {
+	confirmPassword: string
+	password: string
+}
 
 interface PhotoUpload {
 	profilePicture: string
@@ -21,6 +24,9 @@ class UserService extends ApiConnect {
 
 	async uploadPhoto(photo: PhotoUpload) {
 		return this.put('/photo', photo)
+	}
+	async updateUser(user: UserUpdate | PasswordUpdate) {
+		return this.put('/', user)
 	}
 }
 

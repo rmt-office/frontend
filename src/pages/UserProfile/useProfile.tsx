@@ -44,6 +44,6 @@ function useProfile() {
 		}
 	}
 
-	return { userPicture, handlePicture, savePicture, isLoading, user }
+	return { userPicture, handlePicture, savePicture, isLoading, user, authenticateUser }
 }
 export default useProfile

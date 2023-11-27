@@ -34,7 +34,7 @@ const NavMenu = ({ width }: { width: number }) => {
 						<div className='flex gap-6 items-center'>
 							<ToggleThemeIcon theme={theme} onClick={toggleTheme} />
 
-							<p>Welcome, {user?.username}</p>
+							<Link to={'/user'}>Welcome, {user?.username}</Link>
 							<a
 								className=' text-white bg-red-500 dark:bg-red-800 px-0.5  rounded border-solid border-2 border-red-500 dark:border-red-800 hover:cursor-pointer hover:shadow-sm hover:shadow-red-300'
 								onClick={() => {
@@ -121,7 +121,7 @@ const NavMenu = ({ width }: { width: number }) => {
 										</li>
 										<li className='text-lg'>Add a place</li>
 										{isLoggedIn ? (
-											<Link to={'/user'} className='text-lg'>
+											<Link to={'/user'} onClick={handleOpen} className='text-lg'>
 												Your profile
 											</Link>
 										) : null}
