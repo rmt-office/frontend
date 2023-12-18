@@ -8,6 +8,7 @@ import { useThemeValue } from './context'
 import { useEffect } from 'react'
 import ProtectedRoute from './components/ProtectedRoute'
 import UserProfile from './pages/UserProfile'
+import AddPlace from './pages/AddPlace'
 
 function App() {
 	const { theme } = useThemeValue()
@@ -34,6 +35,15 @@ function App() {
 							<ProtectedRoute>
 								<UserProfile />
 							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path='/add'
+						element={
+							// TODO: Remove after finish the form
+							// <ProtectedRoute>
+								<AddPlace />
+							// </ProtectedRoute>
 						}
 					/>
 				</Routes>
