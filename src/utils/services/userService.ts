@@ -5,13 +5,15 @@ interface Base {
 }
 export interface UserUpdate extends Base {
 	email: string
-	password: string
+	username: string
 }
 
 export interface PasswordUpdate extends Base {
 	confirmPassword: string
 	password: string
 }
+
+export type Test = UserUpdate & PasswordUpdate
 
 interface PhotoUpload {
 	profilePicture: string
