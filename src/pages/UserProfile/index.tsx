@@ -14,7 +14,7 @@ const UserProfile = () => {
 	})
 	const [editProfile, setEditProfile] = useState<UserUpdate | PasswordUpdate>()
 
-	const handleModal = (type) => {
+	const handleModal = (type: 'profile' | 'password' | '') => {
 		setModal((prev) => {
 			if (type === 'profile') {
 				setEditProfile({
@@ -55,6 +55,7 @@ const UserProfile = () => {
 						onClick={() => handleModal('')}
 					></div>
 					<PageTitle>Profile</PageTitle>
+
 					<div className='flex flex-col gap-16 '>
 						<div className='flex flex-col gap-4 sm:flex-row justify-between items-center'>
 							<div className='rounded-full w-52 aspect-square flex overflow-hidden'>
@@ -80,6 +81,7 @@ const UserProfile = () => {
 								)}
 							</div>
 						</div>
+
 						<div className='flex flex-col gap-4 sm:flex-row justify-between items-center'>
 							<div className='flex flex-col gap-2'>
 								<p>Username: {user.username}</p>
@@ -96,6 +98,7 @@ const UserProfile = () => {
 							<Button onClick={() => handleModal('password')}>Change password</Button>
 						</div>
 					</div>
+
 					{modal.isOpen && (
 						<div className='absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-20'>
 							<form
@@ -107,32 +110,44 @@ const UserProfile = () => {
 								<p className='mt-4 text-white text-lg font-bold text-center whitespace-nowrap'>
 									Edit your {modal.selected}
 								</p>
-								<div className='grid gap-2'>
-									{Object.keys(editProfile!).map((field) => (
-										<>
-											<label htmlFor={field} className='text-white'>
-												{
-													<>
-														{field
-															.replace('P', ' P')
-															.split(' ')
-															.map((word) => word.slice(0, 1).toUpperCase() + word.slice(1))
-															.join(' ')}
-													</>
-												}
-											</label>
-											<input
-												type={field.toLowerCase().includes('password') ? 'password' : 'text'}
-												id={field}
-												value={editProfile[field]}
-												onChange={(e: ChangeEvent<HTMLInputElement>) => {
-													setEditProfile({ ...editProfile, [field]: e.target.value })
-												}}
-												className='text-black ps-1 rounded py-1'
-											/>
-										</>
-									))}
-								</div>
+								<>
+									{editProfile &&
+										Object.keys(editProfile).map((field) => {
+											let value
+											// TODO: check if is possible to change hardcoding
+											if ('username' in editProfile) {
+												value = editProfile[field as keyof UserUpdate]
+											} else {
+												value = editProfile[field as keyof PasswordUpdate]
+											}
+											return (
+												<div className='grid gap-2' key={field}>
+													<label htmlFor={field} className='text-white'>
+														{
+															<>
+																{field
+																	.replace('P', ' P')
+																	.split(' ')
+																	.map(
+																		(word: string) => word.slice(0, 1).toUpperCase() + word.slice(1)
+																	)
+																	.join(' ')}
+															</>
+														}
+													</label>
+													<input
+														type={field.toLowerCase().includes('password') ? 'password' : 'text'}
+														id={field}
+														value={value}
+														onChange={(e: ChangeEvent<HTMLInputElement>) => {
+															setEditProfile({ ...editProfile, [field]: e.target.value })
+														}}
+														className='text-black ps-1 rounded py-1'
+													/>
+												</div>
+											)
+										})}
+								</>
 								<div className='flex gap-2'>
 									<Button type='reset' className='py-0.5'>
 										Cancel
@@ -149,4 +164,5 @@ const UserProfile = () => {
 		</>
 	)
 }
+
 export default UserProfile
