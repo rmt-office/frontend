@@ -42,7 +42,7 @@ const Navbar = () => {
 				</h2>
 				{width >= 768 && (
 					<span className='justify-self-start'>
-						<Link to={'/login'}>
+						<Link to={'/add'}>
 							<span className='flex gap-1 items-center'>
 								<PlusIcon />
 								Add a place

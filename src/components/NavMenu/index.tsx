@@ -119,11 +119,15 @@ const NavMenu = ({ width }: { width: number }) => {
 												Home - Find a place
 											</Link>
 										</li>
-										<li className='text-lg'>Add a place</li>
 										{isLoggedIn ? (
-											<Link to={'/user'} onClick={handleOpen} className='text-lg'>
-												Your profile
-											</Link>
+											<>
+												<Link to={'/add'} onClick={handleOpen} className='text-lg'>
+													Add a place
+												</Link>
+												<Link to={'/user'} onClick={handleOpen} className='text-lg'>
+													Your profile
+												</Link>
+											</>
 										) : null}
 									</span>
 								</span>
