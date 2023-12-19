@@ -1,8 +1,8 @@
 import Input from '../../../components/Input';
 import InputLegend from '../../../components/InputLegend';
-import { RegisterType } from '../types';
+import { ErrorField, RegisterType } from '../types';
 
-const DetailsTab = ({ register }: { register: RegisterType }) => {
+const DetailsTab = ({ register, errors }: { register: RegisterType; errors: ErrorField }) => {
 	return (
 		<>
 			<Input
