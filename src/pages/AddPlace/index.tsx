@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import Input from '../../components/Input';
-import InputLegend from '../../components/InputLegend';
 import PageTitle from '../../components/PageTitle';
 import NavigationArrows from './components/NavigationArrows';
 import PageShown from './components/PageShown';
@@ -11,25 +9,21 @@ import AddressTab from './components/AddressTab';
 import ContactInfo from './components/ContactInfo';
 import DetailsTab from './components/DetailsTab';
 
-
-
 const AddPlace = () => {
 	const [tabs, setTabs] = useState<Tabs>(TABS.ADDRESS);
 	const {
 		register,
 		handleSubmit,
 		reset,
-		// clearErrors,
-		// getValues,
-		// setError,
+		clearErrors,
+		setError,
+		unregister,
 		formState: { errors },
 	} = useForm<FormValues>({
 		defaultValues: {
 			name: '',
 			category: '',
-			contactInfo: {
-				website: '',
-			},
+			contactInfo: {},
 			price: 1,
 			meetingRooms: 0,
 			address: {
@@ -42,24 +36,18 @@ const AddPlace = () => {
 	});
 
 	const onSubmit: SubmitHandler<FormValues> = async (values) => {
+		clearErrors();
 		console.log('inside onSubmit');
 		console.log(values);
-		console.log(errors)
-		return
-		// if (!values.contactInfo.website) {
-		// 	setError('contactInfo', { message: 'Must include a contact info' });
-		// 	return;
-		// }
-
 		try {
 			const { data } = await placeService.createPlace(values);
 			console.log(data);
 			reset();
 		} catch (error) {
 			console.log(error);
+			setError('root', { message: 'making the form error' });
 		}
 	};
-
 	return (
 		<form className='flex flex-col gap-3' noValidate onSubmit={handleSubmit(onSubmit)}>
 			<PageTitle>{tabs}</PageTitle>
@@ -71,16 +59,16 @@ const AddPlace = () => {
 				)}
 				{tabs === TABS.CONTACT_INFO && (
 					<>
-						<ContactInfo register={register} />
+						<ContactInfo register={register} unregister={unregister} errors={errors} />
 					</>
 				)}
 				{tabs === TABS.DETAILS && (
 					<>
-						<DetailsTab register={register}/>
+						<DetailsTab register={register} errors={errors} />
 					</>
 				)}
 			</div>
-			{errors && <p className='text-white'>{errors.contactInfo?.message}</p>}
+
 			<PageShown tabs={tabs} />
 
 			<NavigationArrows tabs={tabs} setTabs={setTabs} />
