@@ -1,4 +1,4 @@
-import { FieldErrors, UseFormRegister } from 'react-hook-form';
+import { FieldErrors, UseFormRegister, UseFormUnregister } from 'react-hook-form';
 
 export const TABS = {
 	ADDRESS: 'Address',
@@ -12,7 +12,11 @@ export type FormValues = {
 	name: string;
 	category: string;
 	contactInfo: {
-		website: string;
+		website?: string;
+		telephone?: string; 
+		facebook?: string;
+		linkedIn?: string;
+		instagram?: string;
 	};
 	price: number;
 	meetingRooms: number;
@@ -24,6 +28,9 @@ export type FormValues = {
 	};
 };
 
-export type ErrorField = FieldErrors<FormValues>
+export type ContactInfoTypes = FormValues['contactInfo']
+
+export type ErrorField = FieldErrors<FormValues>;
 
 export type RegisterType = UseFormRegister<FormValues>;
+export type UnregisterType = UseFormUnregister<FormValues>;
