@@ -17,13 +17,12 @@ const AddPlace = () => {
 		reset,
 		clearErrors,
 		setError,
-		unregister,
+		control,
 		formState: { errors },
 	} = useForm<FormValues>({
 		defaultValues: {
 			name: '',
 			category: '',
-			contactInfo: {},
 			price: 1,
 			meetingRooms: 0,
 			address: {
@@ -39,6 +38,7 @@ const AddPlace = () => {
 		clearErrors();
 		console.log('inside onSubmit');
 		console.log(values);
+		// return;
 		try {
 			const { data } = await placeService.createPlace(values);
 			console.log(data);
@@ -50,16 +50,16 @@ const AddPlace = () => {
 	};
 	return (
 		<form className='flex flex-col gap-3' noValidate onSubmit={handleSubmit(onSubmit)}>
-			<PageTitle>{tabs}</PageTitle>
+			<PageTitle>{tabs !== TABS.DETAILS ? `${tabs}*` : tabs}</PageTitle>
 			<div className='flex flex-col gap-3'>
 				{tabs === TABS.ADDRESS && (
 					<>
-						<AddressTab register={register} errors={errors} />
+						<AddressTab register={register} errors={errors} control={control} />
 					</>
 				)}
 				{tabs === TABS.CONTACT_INFO && (
 					<>
-						<ContactInfo register={register} unregister={unregister} errors={errors} />
+						<ContactInfo register={register} errors={errors} control={control} />
 					</>
 				)}
 				{tabs === TABS.DETAILS && (

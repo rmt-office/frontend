@@ -1,10 +1,27 @@
+import { Controller } from 'react-hook-form';
+import Select from 'react-select';
+
 import FormError from '../../../components/FormError';
 import Input from '../../../components/Input';
-import { ErrorField, RegisterType } from '../types';
+import { ControlType, ErrorField, RegisterType } from '../types';
 
-const CATEGORY = ['Café', 'Airport', 'Hotel Lobby', 'Library', 'Coworking'];
+const CATEGORY = [
+	{ value: 'Café', label: 'Café' },
+	{ value: 'Airport', label: 'Airport' },
+	{ value: 'Hotel Lobby', label: 'Hotel Lobby' },
+	{ value: 'Library', label: 'Library' },
+	{ value: 'Coworking', label: 'Coworking' },
+];
 
-const AddressTab = ({ register, errors }: { register: RegisterType; errors: ErrorField }) => {
+const AddressTab = ({
+	register,
+	control,
+	errors,
+}: {
+	register: RegisterType;
+	errors: ErrorField;
+	control: ControlType;
+}) => {
 	return (
 		<>
 			<Input
@@ -16,8 +33,25 @@ const AddressTab = ({ register, errors }: { register: RegisterType; errors: Erro
 			>
 				{errors?.name && <FormError message={errors.name.message} />}
 			</Input>
-			<label htmlFor='category'>Category*</label>
-			<select
+
+			<label htmlFor='category'>
+				Category*
+				<Controller
+					control={control}
+					name='category'
+					render={({ field: { onChange } }) => (
+						<Select
+							onChange={(category) => {
+								onChange(category?.value);
+							}}
+							className='text-black'
+							options={CATEGORY}
+						/>
+					)}
+				/>
+			</label>
+
+			{/* <select
 				required
 				className='rounded text-black px-1 py-1 invalid:text-slate-400'
 				id='category'
@@ -33,7 +67,7 @@ const AddressTab = ({ register, errors }: { register: RegisterType; errors: Erro
 						{category}
 					</option>
 				))}
-			</select>
+			</select> */}
 			{errors?.category && <FormError message={errors.category.message} />}
 			<Input
 				label='Country*'
@@ -49,7 +83,7 @@ const AddressTab = ({ register, errors }: { register: RegisterType; errors: Erro
 				type='text'
 				id='postalCode'
 				placeholder='75000'
-				{...register('address.zipCode', {required: 'Inform us the zip code'})}
+				{...register('address.zipCode', { required: 'Inform us the zip code' })}
 			>
 				{errors?.address?.zipCode && <FormError message={errors.address?.zipCode.message} />}
 			</Input>
@@ -67,7 +101,7 @@ const AddressTab = ({ register, errors }: { register: RegisterType; errors: Erro
 				type='text'
 				id='street'
 				placeholder='Av. des Champs-Élysées'
-				{...register('address.street', {required: 'Which street the remote space is located?'})}
+				{...register('address.street', { required: 'Which street the remote space is located?' })}
 			>
 				{errors?.address?.street && <FormError message={errors.address?.street.message} />}
 			</Input>
