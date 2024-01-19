@@ -1,9 +1,13 @@
-import { Controller } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import Select from 'react-select';
 
 import FormError from '../../../components/FormError';
 import Input from '../../../components/Input';
-import { ControlType, ErrorField, RegisterType } from '../types';
+import { useAddPlace } from '../../../context/addPlace/useAddPlace';
+import { FormValues, TABS } from '../types';
+import { useNavigate } from 'react-router-dom';
+import Arrow from '../../../components/Icons/Arrows';
+import PageShown from './PageShown';
 
 const CATEGORY = [
 	{ value: 'Café', label: 'Café' },
@@ -13,15 +17,27 @@ const CATEGORY = [
 	{ value: 'Coworking', label: 'Coworking' },
 ];
 
-const AddressTab = ({
-	register,
-	control,
-	errors,
-}: {
-	register: RegisterType;
-	errors: ErrorField;
-	control: ControlType;
-}) => {
+const AddressTab = () => {
+	const { formData, setFormData, pathname } = useAddPlace();
+	const navigate = useNavigate();
+	const {
+		control,
+		handleSubmit,
+		register,
+		getValues,
+		formState: { errors },
+	} = useForm({ defaultValues: formData });
+
+	const onSubmit = (values: Partial<FormValues>) => {
+		setFormData({ ...formData, ...values });
+		navigate(TABS.CONTACT_INFO);
+	};
+
+	const findCategory = () => {
+		const index = CATEGORY.findIndex((category) => category.value === getValues('category'));
+		return CATEGORY[index];
+	};
+
 	return (
 		<>
 			<Input
@@ -45,6 +61,7 @@ const AddressTab = ({
 							onChange={(category) => {
 								onChange(category?.value);
 							}}
+							defaultValue={findCategory()}
 							className='text-black mt-2'
 							options={CATEGORY}
 						/>
@@ -62,7 +79,7 @@ const AddressTab = ({
 			>
 				{errors?.address?.country && <FormError message={errors.address?.country.message} />}
 			</Input>
-			
+
 			<Input
 				label='Postal Code*'
 				type='text'
@@ -72,7 +89,7 @@ const AddressTab = ({
 			>
 				{errors?.address?.zipCode && <FormError message={errors.address?.zipCode.message} />}
 			</Input>
-			
+
 			<Input
 				label='City*'
 				type='text'
@@ -82,7 +99,7 @@ const AddressTab = ({
 			>
 				{errors?.address?.city && <FormError message={errors.address?.city.message} />}
 			</Input>
-			
+
 			<Input
 				label='Street*'
 				type='text'
@@ -92,6 +109,11 @@ const AddressTab = ({
 			>
 				{errors?.address?.street && <FormError message={errors.address?.street.message} />}
 			</Input>
+
+			<PageShown pathname={pathname} />
+			<div className='flex w-full justify-end'>
+				<Arrow onClick={handleSubmit(onSubmit)} />
+			</div>
 		</>
 	);
 };

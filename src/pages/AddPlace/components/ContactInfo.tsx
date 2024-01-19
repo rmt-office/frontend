@@ -1,9 +1,15 @@
-import { useState } from 'react';
-import Select from 'react-select';
+import { CSSProperties, useState } from 'react';
+import Select, { ClearIndicatorProps, MultiValueRemoveProps, components } from 'react-select';
 
 import FormError from '../../../components/FormError';
 import Input from '../../../components/Input';
-import { ContactInfoTypes, ControlType, ErrorField, RegisterType } from '../types';
+import {
+	ContactInfoTypes,
+	ControlType,
+	ErrorField,
+	RegisterType,
+	UnregisterType,
+} from '../types';
 import { Controller } from 'react-hook-form';
 
 const options = [
@@ -13,12 +19,16 @@ const options = [
 	{ value: 'facebook', label: 'Facebook' },
 ];
 
+type ContactField = { value: string; label: string };
+
 const ContactInfo = ({
 	register,
+	unregister,
 	control,
 	errors,
 }: {
 	register: RegisterType;
+	unregister: UnregisterType;
 	errors: ErrorField;
 	control: ControlType;
 }) => {
@@ -26,9 +36,53 @@ const ContactInfo = ({
 		readonly { label: string; value: string }[]
 	>([]);
 
+	const MultiValueRemove = (props: MultiValueRemoveProps) => {
+		const previousClickEvent = props.innerProps.onClick;
+		props.innerProps.onClick = (event) => {
+			if (typeof props.data === 'object' && props.data != null) {
+				const getKey = props.data;
+				if ('value' in getKey) {
+					const key = getKey.value as keyof ContactInfoTypes;
+					unregister(`contactInfo.${key}`);
+				}
+			}
+			if (previousClickEvent) {
+				previousClickEvent(event);
+			}
+		};
+
+		return <components.MultiValueRemove {...props}></components.MultiValueRemove>;
+	};
+
+	const ClearIndicator = (props: ClearIndicatorProps) => {
+		const {
+			getStyles,
+			innerProps: { ref, ...restInnerProps },
+		} = props;
+		const previousClickEvent = props.innerProps.onMouseDown;
+		props.innerProps.onMouseDown = (event) => {
+			unregister(`contactInfo`);
+
+			if (previousClickEvent) {
+				previousClickEvent(event);
+			}
+		};
+		return (
+			<div
+				{...restInnerProps}
+				ref={ref}
+				style={getStyles('clearIndicator', props) as CSSProperties}
+			>
+				<div style={{ padding: '0px 5px' }} className='text-black hover:cursor-pointer'>
+					X
+				</div>
+			</div>
+		);
+	};
+
 	return (
 		<>
-			{contactInfoFields.map(({ value, label }) => {
+			{contactInfoFields.map(({ value: value, label }) => {
 				const key = value as keyof ContactInfoTypes;
 
 				return (
@@ -40,7 +94,9 @@ const ContactInfo = ({
 						{...register(`contactInfo.${key}`)}
 						key={key}
 					>
-						{errors.contactInfo && <FormError message={errors.contactInfo?.[key]?.message} />}
+						{errors.contactInfo?.[key] && (
+							<FormError message={errors.contactInfo?.[key]?.message} />
+						)}
 					</Input>
 				);
 			})}
@@ -48,13 +104,17 @@ const ContactInfo = ({
 			<Controller
 				control={control}
 				name='contactInfo'
-				render={({ field: { onChange } }) => (
+				render={({ field: { ref } }) => (
 					<Select
 						onChange={(contactFields) => {
-							onChange(
-								setContactInfoFields(contactFields.map((contactField) => ({ ...contactField })))
+							setContactInfoFields(
+								contactFields.map((field) => {
+									return { ...(field as ContactField) };
+								})
 							);
 						}}
+						components={{ MultiValueRemove, ClearIndicator }}
+						ref={ref}
 						className='text-black my-6'
 						options={options}
 						isMulti
@@ -63,7 +123,17 @@ const ContactInfo = ({
 			/>
 
 			<p>We need at least one way to contact the establishment, ex: website, phone, instagram</p>
-			{errors.contactInfo && <FormError message={errors.contactInfo?.message} />}
+			{errors.contactInfo && 	<FormError message={errors.contactInfo.message} />}
+			{/* {errors.contactInfo &&
+				Object.keys(errors.contactInfo).map((e) => {
+					const value = e as keyof FormValues['contactInfo'];
+					return(
+						<div className='flex gap-2'> 
+						<span >{value}:</span>
+						<FormError message={errors.contactInfo?.[value]?.message} />
+					</div>
+					)
+				})} */}
 		</>
 	);
 };

@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ReactNode } from 'react';
 
 const Button = ({
 	children,
@@ -6,10 +6,10 @@ const Button = ({
 	className,
 	onClick,
 }: {
-	children: ReactNode
-	type?: 'button' | 'submit' | 'reset'
-	className?: string
-	onClick?: (param?: unknown) => void
+	children: ReactNode;
+	type?: 'button' | 'submit' | 'reset';
+	className?: string;
+	onClick?: ((param?: unknown) => void) | (() => void);
 }) => {
 	return (
 		<button
@@ -19,6 +19,6 @@ const Button = ({
 		>
 			{children}
 		</button>
-	)
-}
-export default Button
+	);
+};
+export default Button;

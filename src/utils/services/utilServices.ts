@@ -8,6 +8,10 @@ class UtilServices extends ApiConnect {
 	async uploadPhoto(imageFile: FormData) {
 		return this.post<FormData, string>('/picture', imageFile)
 	}
+
+	async uploadPhotos(imageFile: FormData) {
+		return this.post<FormData, string[]>('/pictures', imageFile)
+	}
 }
 
 const utilServices = new UtilServices()

@@ -1,25 +1,29 @@
-import './App.css'
-import Navbar from './components/Navbar'
-import { Route, Routes } from 'react-router-dom'
-import Signup from './pages/Signup'
-import Login from './pages/Login'
-import Home from './pages/Home'
-import { useThemeValue } from './context'
-import { useEffect } from 'react'
-import ProtectedRoute from './components/ProtectedRoute'
-import UserProfile from './pages/UserProfile'
-import AddPlace from './pages/AddPlace'
+import './App.css';
+import Navbar from './components/Navbar';
+import { Route, Routes } from 'react-router-dom';
+import Signup from './pages/Signup';
+import Login from './pages/Login';
+import Home from './pages/Home';
+import { useThemeValue } from './context';
+import { useEffect } from 'react';
+import ProtectedRoute from './components/ProtectedRoute';
+import UserProfile from './pages/UserProfile';
+import AddPlace from './pages/AddPlaceSplit';
+import AddressTab from './pages/AddPlaceSplit/components/AddressTab';
+import ContactInfo from './pages/AddPlaceSplit/components/ContactInfo';
+import DetailsTab from './pages/AddPlaceSplit/components/DetailsTab';
+import Token from './pages/Token';
 
 function App() {
-	const { theme } = useThemeValue()
+	const { theme } = useThemeValue();
 	useEffect(() => {
-		const html = document.querySelector('html')
+		const html = document.querySelector('html');
 		if (html && theme === 'dark') {
-			html.className = 'dark'
+			html.className = 'dark';
 		} else if (html) {
-			html.className = ''
+			html.className = '';
 		}
-	}, [theme])
+	}, [theme]);
 
 	return (
 		<>
@@ -29,6 +33,7 @@ function App() {
 					<Route path='/' element={<Home />} />
 					<Route path='/signup' element={<Signup />} />
 					<Route path='/login' element={<Login />} />
+					<Route path='/auth' element={<Token />} />
 					<Route
 						path='/user'
 						element={
@@ -40,16 +45,19 @@ function App() {
 					<Route
 						path='/add'
 						element={
-							// TODO: Remove after finish the form
-							// <ProtectedRoute>
+							<ProtectedRoute>
 								<AddPlace />
-							// </ProtectedRoute>
+							</ProtectedRoute>
 						}
-					/>
+					>
+						<Route path='' element={<AddressTab />} />
+						<Route path='contactInfo' element={<ContactInfo />} />
+						<Route path='details' element={<DetailsTab />} />
+					</Route>
 				</Routes>
 			</div>
 		</>
-	)
+	);
 }
 
-export default App
+export default App;

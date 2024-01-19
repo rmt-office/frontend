@@ -1,24 +1,7 @@
 import { ApiConnect } from '../../lib/axios';
+import { FormValues } from '../../pages/AddPlaceSplit/types';
 
-type NewPlace = {
-	name: string;
-	category: string;
-	contactInfo: {
-		website?: string;
-		telephone?: string;
-		facebook?: string;
-		linkedIn?: string;
-		instagram?: string;
-	};
-	price?: number;
-	meetingRooms?: number;
-	address: {
-		country: string;
-		city: string;
-		street: string;
-		zipCode: string;
-	};
-};
+type NewPlace = FormValues
 
 class PlaceService extends ApiConnect {
 	constructor() {

@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext, ReactNode } from 'react'
+import { useState, useEffect, createContext, ReactNode, useCallback } from 'react'
 import { authService } from '../../utils/services'
 
 const AuthContext = createContext<null | {
@@ -23,7 +23,7 @@ const AuthContextWrapper = ({ children }: { children: ReactNode }) => {
 
 	const storeToken = (token: string) => localStorage.setItem('token', token)
 
-	const authenticateUser = async () => {
+	const authenticateUser = useCallback(async () => {
 		const storedToken = localStorage.getItem('token')
 		if (!storedToken) {
 			setUser(null)
@@ -41,7 +41,7 @@ const AuthContextWrapper = ({ children }: { children: ReactNode }) => {
 		} finally {
 			setIsLoading(false)
 		}
-	}
+	}, [])
 
 	const removeToken = () => localStorage.removeItem('token')
 
@@ -52,7 +52,7 @@ const AuthContextWrapper = ({ children }: { children: ReactNode }) => {
 
 	useEffect(() => {
 		authenticateUser()
-	}, [])
+	}, [authenticateUser])
 
 	return (
 		<AuthContext.Provider

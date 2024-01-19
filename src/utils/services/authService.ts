@@ -1,30 +1,30 @@
-import { ApiConnect } from '../../lib/axios'
+import { ApiConnect } from '../../lib/axios';
 
 interface User {
-	email: string
-	password: string
+	email: string;
+	password: string;
 }
 
 interface NewUser extends User {
-	confirmPassword: string
-	username?: string
+	confirmPassword: string;
+	username?: string;
 }
 
 class AuthService extends ApiConnect {
 	constructor() {
-		super('auth')
+		super('auth');
 	}
 
 	async signup(newUser: NewUser) {
-		return this.post('/signup', newUser)
+		return this.post('/signup', newUser);
 	}
 	async login(user: User) {
-		return this.post('/login', user)
+		return this.post<User, { token: string }>('/login', user);
 	}
 	async verify() {
-		return this.get('/verify')
+		return this.get('/verify');
 	}
 }
 
-const authService = new AuthService()
-export { authService }
+const authService = new AuthService();
+export { authService };

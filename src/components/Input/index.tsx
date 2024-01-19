@@ -16,7 +16,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 	({ children, type, id, label, placeholder, className, ...props }, ref) => {
 		return (
 			<div className='grid gap-1'>
-				<label htmlFor={id}>{label} :</label>
+				<label htmlFor={id} className='text-lg'>{label} :</label>
 				<input
 					type={type}
 					id={id}

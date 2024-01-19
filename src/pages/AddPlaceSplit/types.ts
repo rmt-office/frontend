@@ -7,9 +7,9 @@ import {
 } from 'react-hook-form';
 
 export const TABS = {
-	ADDRESS: 'Address',
-	CONTACT_INFO: 'Contact Info',
-	DETAILS: 'Details',
+	ADDRESS: '/add',
+	CONTACT_INFO: '/add/contactInfo',
+	DETAILS: '/add/details',
 } as const;
 
 export type Tabs = (typeof TABS)[keyof typeof TABS];
@@ -17,7 +17,7 @@ export type Tabs = (typeof TABS)[keyof typeof TABS];
 export type FormValues = {
 	name: string;
 	category: string;
-	contactInfo: {
+	contactInfo?: {
 		website?: string;
 		telephone?: string;
 		facebook?: string;
@@ -25,7 +25,6 @@ export type FormValues = {
 		instagram?: string;
 	};
 	price: number;
-	meetingRooms: number;
 	address: {
 		country: string;
 		city: string;
@@ -35,20 +34,20 @@ export type FormValues = {
 	wifiSpeed?: 'Fast' | 'Medium' | 'Slow';
 	meetingRoom?: number;
 	bathrooms?: number;
-	tags: {
-		hasFood: boolean;
-		hasDrink: boolean;
-		hasCafeteria: boolean;
-		isAccessible: boolean;
-		isVegan: boolean;
-		isVegetarian: boolean;
+	tags?: {
+		hasFood?: boolean;
+		hasDrink?: boolean;
+		hasCafeteria?: boolean;
+		isAccessible?: boolean;
+		isVegan?: boolean;
+		isVegetarian?: boolean;
 	};
 	description?: string;
-	photos: string[];
+	photos?: string[];
 };
 
-export type ContactInfoTypes = FormValues['contactInfo'];
-export type TagsTypes = FormValues['tags'];
+export type ContactInfoTypes = NonNullable<FormValues['contactInfo']>
+export type TagsTypes = NonNullable<FormValues['tags']>;
 
 export type ErrorField = FieldErrors<FormValues>;
 
