@@ -21,4 +21,3 @@ const Signup = () => {
 }
 export default Signup
 
-// Aa123456!

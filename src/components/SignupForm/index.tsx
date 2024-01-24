@@ -1,10 +1,10 @@
-import { useForm } from 'react-hook-form'
-import { authService } from '../../utils/services'
-import { AxiosError } from 'axios'
-import { useNavigate } from 'react-router-dom'
-import Input from '../Input'
-import Button from '../Button'
-import InputLegend from '../InputLegend'
+import { useForm } from 'react-hook-form';
+import { authService } from '../../utils/services';
+import { AxiosError } from 'axios';
+import Input from '../Input';
+import Button from '../Button';
+import InputLegend from '../InputLegend';
+import FormError from '../FormError';
 
 const SingUpForm = () => {
 	const {
@@ -12,7 +12,7 @@ const SingUpForm = () => {
 		register,
 		reset,
 		setError,
-		formState: { errors },
+		formState: { errors, isSubmitting, isSubmitSuccessful, isValid },
 	} = useForm({
 		values: {
 			email: '',
@@ -20,15 +20,13 @@ const SingUpForm = () => {
 			username: '',
 			confirmPassword: '',
 		},
-	})
-
-	const navigate = useNavigate()
+	});
 
 	const onSubmit = async (values: {
-		email: string
-		password: string
-		confirmPassword: string
-		username?: string
+		email: string;
+		password: string;
+		confirmPassword: string;
+		username?: string;
 	}) => {
 		try {
 			const newUser = {
@@ -36,17 +34,16 @@ const SingUpForm = () => {
 				password: values.password,
 				confirmPassword: values.confirmPassword,
 				username: values.username,
-			}
-			await authService.signup(newUser)
-			navigate('/login')
+			};
+			await authService.signup(newUser);
 		} catch (error) {
 			if (error instanceof AxiosError) {
 				setError('root.serverError', {
 					message: error.response!.data.message,
-				})
+				});
 			}
 		}
-	}
+	};
 	return (
 		<form className='flex flex-col gap-3 ' onSubmit={handleSubmit(onSubmit)}>
 			<Input
@@ -120,16 +117,22 @@ const SingUpForm = () => {
 				</InputLegend>
 			</Input>
 
-			{errors.root?.serverError && (
-				<p className='text-red-400 mx-0.5 text-xl'>{errors.root.serverError.message}</p>
+			{errors.root?.serverError && <FormError message={errors.root.serverError.message} />}
+
+			{!errors.root && isSubmitSuccessful && (
+				<p className='text-indigo-400 mx-0.5 text-xl'>
+					Great news! Your account was created successfully, please verify your email!
+				</p>
 			)}
 			<div className='self-end flex gap-1.5 mt-1'>
-				<Button type='submit'>Register</Button>
+				<Button type='submit' disabled={isSubmitting || !isValid}>
+					Register
+				</Button>
 				<Button type='reset' onClick={() => reset()}>
 					Cancel
 				</Button>
 			</div>
 		</form>
-	)
-}
-export default SingUpForm
+	);
+};
+export default SingUpForm;

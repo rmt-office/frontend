@@ -2,6 +2,7 @@ import axios, { AxiosError } from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Button from '../../components/Button';
+import PageTitle from '../../components/PageTitle';
 
 type Status = {
 	status: 'error' | 'success' | 'verified' | undefined;
@@ -30,10 +31,10 @@ const Token = () => {
 					navigate('/login');
 				}, 2000);
 			} catch (error) {
-        if (error instanceof AxiosError) {
-          // 'jwt expired'
-          if (error.response?.data.message === 'jwt malformed') {
-            console.log(error);
+				if (error instanceof AxiosError) {
+					// 'jwt expired'
+					if (error.response?.data.message === 'jwt malformed') {
+						console.log(error);
 						setStatus({
 							status: 'error',
 							message: 'Token Expired',
@@ -71,6 +72,8 @@ const Token = () => {
 
 	return (
 		<div>
+			<PageTitle>Email verification</PageTitle>
+			{!status.status && <p>Please wait while we verify your email</p>}
 			{status.status === 'error' && (
 				<Button onClick={resendToken}> Resent email verification</Button>
 			)}

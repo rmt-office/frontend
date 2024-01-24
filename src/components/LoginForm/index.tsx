@@ -13,7 +13,7 @@ const LoginForm = () => {
 		register,
 		reset,
 		setError,
-		formState: { errors },
+		formState: { errors, isSubmitting, isValid },
 	} = useForm({
 		values: {
 			email: '',
@@ -88,7 +88,7 @@ const LoginForm = () => {
 			)}
 
 			<div className='self-end flex gap-1.5 mt-1'>
-				<Button type='submit'>Login</Button>
+				<Button type='submit' disabled={isSubmitting || !isValid}>Login</Button>
 				<Button
 					type='reset'
 					onClick={() => reset()}
