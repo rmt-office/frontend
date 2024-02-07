@@ -1,15 +1,23 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
-const ProfilePictureIcon = () => {
+const ProfilePictureIcon = ({
+	className,
+	w = 6,
+	strokeWidth = 1.5
+}: {
+	className?: string;
+	w?: number;
+	strokeWidth?: number
+}) => {
 	return (
 		<Link to={'/user'}>
 			<svg
 				xmlns='http://www.w3.org/2000/svg'
 				fill='none'
 				viewBox='0 0 24 24'
-				strokeWidth={1.5}
+				strokeWidth={strokeWidth}
 				stroke='currentColor'
-				className='w-6 h-6'
+				className={`w-${w} h-${w} ${className}`}
 			>
 				<path
 					strokeLinecap='round'
@@ -18,6 +26,6 @@ const ProfilePictureIcon = () => {
 				/>
 			</svg>
 		</Link>
-	)
-}
-export default ProfilePictureIcon
+	);
+};
+export default ProfilePictureIcon;

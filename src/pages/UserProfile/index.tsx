@@ -1,18 +1,19 @@
-import Button from '../../components/Button'
-import PageTitle from '../../components/PageTitle'
-import useProfile from './useProfile'
-import CloseIcon from '../../components/Icons/CloseIcon'
-import { ChangeEvent, FormEvent, useState } from 'react'
-import { userService, UserUpdate, PasswordUpdate } from '../../utils/services'
+import Button from '../../components/Button';
+import PageTitle from '../../components/PageTitle';
+import useProfile from './useProfile';
+import CloseIcon from '../../components/Icons/CloseIcon';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import { userService, UserUpdate, PasswordUpdate } from '../../utils/services';
+import ProfilePictureIcon from '../../components/Icons/ProfilePictureIcon';
 
 const UserProfile = () => {
 	const { userPicture, handlePicture, savePicture, isLoading, user, authenticateUser } =
-		useProfile()
+		useProfile();
 	const [modal, setModal] = useState({
 		isOpen: false,
 		selected: '',
-	})
-	const [editProfile, setEditProfile] = useState<UserUpdate | PasswordUpdate>()
+	});
+	const [editProfile, setEditProfile] = useState<UserUpdate | PasswordUpdate>();
 
 	const handleModal = (type: 'profile' | 'password' | '') => {
 		setModal((prev) => {
@@ -21,29 +22,29 @@ const UserProfile = () => {
 					username: user!.username,
 					email: user!.email,
 					currentPassword: '',
-				})
-				return { selected: type, isOpen: !prev.isOpen }
+				});
+				return { selected: type, isOpen: !prev.isOpen };
 			} else if (type === 'password') {
-				setEditProfile({ password: '', confirmPassword: '', currentPassword: '' })
-				return { selected: type, isOpen: !prev.isOpen }
+				setEditProfile({ password: '', confirmPassword: '', currentPassword: '' });
+				return { selected: type, isOpen: !prev.isOpen };
 			} else {
-				setEditProfile(undefined)
-				return { selected: '', isOpen: !prev.isOpen }
+				setEditProfile(undefined);
+				return { selected: '', isOpen: !prev.isOpen };
 			}
-		})
-	}
+		});
+	};
 
 	const onSubmit = async (e: FormEvent) => {
-		e.preventDefault()
-		console.log(editProfile)
+		e.preventDefault();
+		console.log(editProfile);
 		try {
-			await userService.updateUser(editProfile!)
-			await authenticateUser()
-			handleModal('')
+			await userService.updateUser(editProfile!);
+			await authenticateUser();
+			handleModal('');
 		} catch (error) {
-			console.log(error)
+			console.log(error);
 		}
-	}
+	};
 	return (
 		<>
 			{user && (
@@ -58,8 +59,14 @@ const UserProfile = () => {
 
 					<div className='flex flex-col gap-16 '>
 						<div className='flex flex-col gap-4 sm:flex-row justify-between items-center'>
-							<div className='rounded-full w-52 aspect-square flex overflow-hidden'>
-								<img src={userPicture.picture} alt={user.username} className='object-cover' />
+							<div className='rounded-full w-52 aspect-square overflow-hidden'>
+								{userPicture.picture ? (
+									<img src={userPicture.picture} alt={user.username} className='mx-auto' />
+								) : (
+									<span className='m-auto'>
+										<ProfilePictureIcon w={52} strokeWidth={0.4} />
+									</span>
+								)}
 							</div>
 							<div className='flex flex-col gap-2'>
 								<Button>
@@ -113,12 +120,12 @@ const UserProfile = () => {
 								<>
 									{editProfile &&
 										Object.keys(editProfile).map((field) => {
-											let value
+											let value;
 											// TODO: check if is possible to change hardcoding
 											if ('username' in editProfile) {
-												value = editProfile[field as keyof UserUpdate]
+												value = editProfile[field as keyof UserUpdate];
 											} else {
-												value = editProfile[field as keyof PasswordUpdate]
+												value = editProfile[field as keyof PasswordUpdate];
 											}
 											return (
 												<div className='grid gap-2' key={field}>
@@ -140,12 +147,12 @@ const UserProfile = () => {
 														id={field}
 														value={value}
 														onChange={(e: ChangeEvent<HTMLInputElement>) => {
-															setEditProfile({ ...editProfile, [field]: e.target.value })
+															setEditProfile({ ...editProfile, [field]: e.target.value });
 														}}
 														className='text-black ps-1 rounded py-1'
 													/>
 												</div>
-											)
+											);
 										})}
 								</>
 								<div className='flex gap-2'>
@@ -162,7 +169,7 @@ const UserProfile = () => {
 				</div>
 			)}
 		</>
-	)
-}
+	);
+};
 
-export default UserProfile
+export default UserProfile;
